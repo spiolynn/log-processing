@@ -1,0 +1,1 @@
+python3 -f setting.ini -s nginx-log-archive -l nginx-log-archive.log

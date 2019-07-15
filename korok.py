@@ -50,6 +50,18 @@ reserve=y
 mtime=0-0-0-01
 '''
 
+'''
+# 数据清理
+[clear-test]
+action=clear
+src=./test_folder/dst
+pattern=*.tar.gz
+mtime=0-0-0-01
+timestamp=y
+recursive=y
+'''
+
+
 
 class Coper:
 
@@ -138,6 +150,7 @@ class Coper:
             elif action == 'clear':
                 if not self.Clear(section, args):
                     ret = 13
+
             elif action == 'processmon':
                 if not self.ProcessMon(section):
                     ret = 14
@@ -662,6 +675,7 @@ class Coper:
                         return 0
         return 1
 
+    # 数据清理
     def Clear(self, section, args):
 
         # src
@@ -719,7 +733,7 @@ class Coper:
                         root,
                         dirs,
                         files) in os.walk(
-                        src.decode('utf-8'),
+                        src,
                         topdown=False):
                     for filename in files:
                         abssrc = os.path.join(root, filename)
@@ -779,6 +793,7 @@ class Coper:
                 except Exception as ex:
                     logging.exception(ex)
         logging.info('Delete List Ends')
+
 
     def Execute(self, section):
         try:
@@ -1417,7 +1432,7 @@ def ParseArgs():
         type="string",
         dest="section",
         help="Specify the Section to Run",
-        default="archive-month-test")
+        default="clear-test")
     parser.add_option(
         "-l",
         "--log",
